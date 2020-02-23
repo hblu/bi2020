@@ -1,0 +1,126 @@
+---
+title: "练习1: 使用 ggplot 进修可视化"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+---
+
+```{r, message=F, echo=FALSE, warning=FALSE}
+library(tidyverse)
+
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+
+  numPlots = length(plots)
+
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                    ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+
+ if (numPlots==1) {
+    print(plots[[1]])
+
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+```
+
+
+- 阅读 [R 数据科学](book/R数据科学(中文完整版).pdf) 第一章内容.
+
+- 以下代码生成的两张图有什么区别吗？为什么？
+
+```{r, eval=F}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot() +
+  geom_point(
+  data = mpg,
+  mapping = aes(x = displ, y = hwy)
+  ) +
+  geom_smooth(
+  data = mpg,
+  mapping = aes(x = displ, y = hwy)
+  )
+```
+
+
+- 编写 R 代码生成以下各图
+
+```{r, echo=FALSE, warning=F, message=FALSE}
+g1 <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth(se = F)
+
+g2 <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth(aes(group = drv), se = F)
+
+g3 <- ggplot(mpg, aes(x = displ, y = hwy, color = drv)) +
+  geom_point() +
+  geom_smooth(se = F)
+
+g4 <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = drv)) +
+  geom_smooth(se = F)
+
+
+g5 <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = drv)) +
+  geom_smooth(aes(linetype = drv), se = F)
+
+g6 <- ggplot(mpg, aes(x = displ, y = hwy, color = drv)) +
+  geom_point()
+
+multiplot(g1, g2, g3, g4, g5, g6, cols = 2)
+
+```
+
+- 编写 R 代码生成下图
+
+```{r, echo=FALSE}
+ggplot(mpg) +
+  geom_boxplot(aes(x = class, y = hwy)) +
+  coord_flip()
+```
+
+- 以下代码生成的图片有什么区别？查看帮助 `?geom_bar` 查看参数 `position` 的说明.
+
+```{r}
+ggplot(mpg) + 
+  geom_bar(aes(x = class, fill = drv))
+  
+ggplot(mpg) + 
+  geom_bar(aes(x = class, fill = drv), position = "stack")
+
+ggplot(mpg) + 
+  geom_bar(aes(x = class, fill = drv), position = "dodge")
+
+ggplot(mpg) + 
+  geom_bar(aes(x = class, fill = drv), position = "fill")
+
+```

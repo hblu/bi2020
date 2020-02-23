@@ -1,0 +1,35 @@
+---
+title: "商务智能 Business Intelligence"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+---
+
+
+# 课件
+
+- [概述](1.intro.html)
+- [R语言入门 - 基础数据结构](2.r_basic.html)
+- [R语言入门 - tidyverse基础](3.tidyverse_intro.html)
+
+# 练习
+
+- [使用 `ggplot` 进行可视化](exe1.html)
+
+# 参考书籍
+
+- [R 数据科学 (中文版)](book/R数据科学(中文完整版).pdf), [R 数据科学 (英文版)](http://r4ds.had.co.nz/)
+- [R Cheatsheets](https://rstudio.com/resources/cheatsheets/)
+- [R Programming for Data Science](https://bookdown.org/rdpeng/rprogdatascience/)
+- [R语言在商务分析中的应用](book/R语言在商务分析中的应用.pdf)
+- [Introduction to R for Business Intelligence](book/Introduction_to_R_for_Business_Intelligence.pdf)
+- [Business Intelligence with R](book/businessintelligencewithr.pdf)
+
+
+# 工具
+
+- [R](https://www.r-project.org/)
+- [RStudio](https://www.rstudio.com/)
+
